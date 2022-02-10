@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Doc.ai and/or its affiliates.
+// Copyright (c) 2020-2022 Doc.ai and/or its affiliates.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package config contains config and helper functions for configuration cmd-nsc-init
+// Package config - contain environment variables used by nsmgr
 package config
 
 import (
@@ -22,14 +22,14 @@ import (
 	"time"
 )
 
-// Config - configuration for cmd-nsc-init
+// Config - configuration for cmd-nsmgr
 type Config struct {
-	Name                  string        `default:"cmd-nsc-init" desc:"Name of the client" split_words:"true"`
-	DialTimeout           time.Duration `default:"5s" desc:"timeout to dial NSMgr" split_words:"true"`
-	RequestTimeout        time.Duration `default:"15s" desc:"timeout to request NSE" split_words:"true"`
-	ConnectTo             url.URL       `default:"unix:///var/lib/networkservicemesh/nsm.io.sock" desc:"url to connect to" split_words:"true"`
-	MaxTokenLifetime      time.Duration `default:"10m" desc:"maximum lifetime of tokens" split_words:"true"`
-	NetworkServices       []url.URL     `default:"" desc:"A list of Network Service Requests" split_words:"true"`
-	LogLevel              string        `default:"INFO" desc:"Log level" split_words:"true"`
-	OpenTelemetryEndpoint string        `default:"otel-collector.observability.svc.cluster.local:4317" desc:"OpenTelemetry Collector Endpoint"`
+	Name                        string        `default:"nmgr" desc:"Name of Network service manager"`
+	ListenOn                    []url.URL     `default:"unix:///var/lib/networkservicemesh/nsm.io.sock" desc:"url to listen on. tcp:// one will be used a public to register NSM." split_words:"true"`
+	RegistryURL                 url.URL       `default:"tcp://localhost:5001" desc:"A NSE registry url to use" split_words:"true"`
+	MaxTokenLifetime            time.Duration `default:"10m" desc:"maximum lifetime of tokens" split_words:"true"`
+	LogLevel                    string        `default:"INFO" desc:"Log level" split_words:"true"`
+	DialTimeout                 time.Duration `default:"100ms" desc:"Timeout for the dial the next endpoint" split_words:"true"`
+	ForwarderNetworkServiceName string        `default:"forwarder" desc:"the default service name for forwarder discovering" split_words:"true"`
+	OpenTelemetryEndpoint       string        `default:"otel-collector.observability.svc.cluster.local:4317" desc:"OpenTelemetry Collector Endpoint"`
 }
