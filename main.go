@@ -55,10 +55,9 @@ import (
 	"github.com/networkservicemesh/sdk/pkg/tools/log"
 	"github.com/networkservicemesh/sdk/pkg/tools/log/logruslogger"
 	"github.com/networkservicemesh/sdk/pkg/tools/nsurl"
-	"github.com/networkservicemesh/sdk/pkg/tools/opentelemetry"
+	tracing "github.com/networkservicemesh/sdk/pkg/tools/opentracing"
 	"github.com/networkservicemesh/sdk/pkg/tools/spiffejwt"
 	"github.com/networkservicemesh/sdk/pkg/tools/token"
-	"github.com/networkservicemesh/sdk/pkg/tools/tracing"
 
 	"github.com/networkservicemesh/cmd-nsc-init/internal/config"
 )
@@ -98,21 +97,6 @@ func main() {
 	}
 	setLogLevel(rootConf.LogLevel)
 	logger.Infof("rootConf: %+v", rootConf)
-
-	// ********************************************************************************
-	// Configure Open Telemetry
-	// ********************************************************************************
-	if opentelemetry.IsEnabled() {
-		collectorAddress := rootConf.OpenTelemetryEndpoint
-		spanExporter := opentelemetry.InitSpanExporter(ctx, collectorAddress)
-		metricExporter := opentelemetry.InitMetricExporter(ctx, collectorAddress)
-		o := opentelemetry.Init(ctx, spanExporter, metricExporter, rootConf.Name)
-		defer func() {
-			if err := o.Close(); err != nil {
-				logger.Error(err.Error())
-			}
-		}()
-	}
 
 	// ********************************************************************************
 	// Get a x509Source
