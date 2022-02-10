@@ -42,9 +42,9 @@ import (
 	"github.com/networkservicemesh/sdk/pkg/networkservice/common/authorize"
 	"github.com/networkservicemesh/sdk/pkg/tools/grpcutils"
 	"github.com/networkservicemesh/sdk/pkg/tools/log"
+	tracing "github.com/networkservicemesh/sdk/pkg/tools/opentracing"
 	"github.com/networkservicemesh/sdk/pkg/tools/spiffejwt"
 	"github.com/networkservicemesh/sdk/pkg/tools/token"
-	"github.com/networkservicemesh/sdk/pkg/tools/tracing"
 
 	"github.com/networkservicemesh/cmd-nsmgr/internal/config"
 )
